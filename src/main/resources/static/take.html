@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FormCraft | Complete Survey</title>
+    <!-- Google Fonts for Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body class="center-layout">
+    <div class="glow-bg"></div>
+    <div class="bg-decorations">
+        <i class="fa-solid fa-list-check decor-item decor-item-1"></i>
+        <i class="fa-solid fa-file-lines decor-item decor-item-2"></i>
+        <i class="fa-solid fa-square-poll-horizontal decor-item decor-item-3"></i>
+        <i class="fa-solid fa-chart-simple decor-item decor-item-4"></i>
+        <i class="fa-solid fa-folder-open decor-item decor-item-5"></i>
+        <i class="fa-solid fa-pen-to-square decor-item decor-item-6"></i>
+        <i class="fa-solid fa-circle-question decor-item decor-item-7"></i>
+        <i class="fa-solid fa-square-check decor-item decor-item-8"></i>
+    </div>
+    
+    <div class="form-container">
+        <!-- Survey Form Card -->
+        <div class="card take-card" id="take-card">
+            <div id="survey-loading" class="survey-loader">
+                <i class="fa-solid fa-spinner fa-spin loader-icon"></i>
+                <p>Loading Survey...</p>
+            </div>
+            
+            <div id="survey-content" class="hidden">
+                <h1 id="take-title">Survey Title</h1>
+                <p id="take-description" class="survey-description">Survey description goes here...</p>
+                
+                <form id="submit-response-form" onsubmit="submitAnswers(event)">
+                    <!-- Questions will be loaded dynamically here -->
+                    <div id="take-questions-container"></div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-block"><i class="fa-solid fa-paper-plane"></i> Submit Answers</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Success State -->
+            <div id="success-state" class="hidden success-panel">
+                <i class="fa-solid fa-circle-check success-icon"></i>
+                <h2>Submission Successful!</h2>
+                <p>Thank you for taking the time to complete this survey. Your answers have been recorded.</p>
+                <div class="success-actions">
+                    <button class="btn btn-primary" onclick="window.close(); window.location.href='index.html';">Go to Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="app.js"></script>
+    <script>
+        // Trigger loading survey questions when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initSurveyTaker();
+        });
+    </script>
+</body>
+</html>

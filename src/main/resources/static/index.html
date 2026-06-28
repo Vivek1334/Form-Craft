@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FormCraft | Dynamic Survey & Quiz Builder</title>
+    <!-- Google Fonts for Modern Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=2">
+</head>
+<body>
+    <div class="glow-bg"></div>
+    <div class="bg-decorations">
+        <i class="fa-solid fa-list-check decor-item decor-item-1"></i>
+        <i class="fa-solid fa-file-lines decor-item decor-item-2"></i>
+        <i class="fa-solid fa-square-poll-horizontal decor-item decor-item-3"></i>
+        <i class="fa-solid fa-chart-simple decor-item decor-item-4"></i>
+        <i class="fa-solid fa-folder-open decor-item decor-item-5"></i>
+        <i class="fa-solid fa-pen-to-square decor-item decor-item-6"></i>
+        <i class="fa-solid fa-circle-question decor-item decor-item-7"></i>
+        <i class="fa-solid fa-square-check decor-item decor-item-8"></i>
+    </div>
+    <div class="app-container">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-square-poll-vertical logo-icon"></i>
+                <span class="logo-text">FormCraft</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html" class="active"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
+                <a href="#" id="sidebar-new-btn"><i class="fa-solid fa-plus"></i> Create Survey</a>
+            </nav>
+            <div class="sidebar-footer">
+                <p>Status: <span class="status-online"><i class="fa-solid fa-circle"></i> Connected</span></p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="welcome-text">
+                    <h1>Dashboard</h1>
+                    <p>Build and analyze custom surveys & quizzes instantly</p>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" id="load-demo-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Load Demo</button>
+                    <button class="btn btn-primary" id="new-survey-btn"><i class="fa-solid fa-plus"></i> Create Survey</button>
+                </div>
+            </header>
+
+            <!-- Dashboard View -->
+            <section id="dashboard-view" class="view-panel">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon purple"><i class="fa-solid fa-file-invoice"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Surveys</span>
+                            <span class="stat-value" id="stat-surveys-count">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><i class="fa-solid fa-reply-all"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Responses</span>
+                            <span class="stat-value" id="stat-responses-count">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h2>Your Surveys</h2>
+                </div>
+                
+                <!-- Surveys Grid -->
+                <div class="surveys-grid" id="surveys-list">
+                    <!-- Dynamic surveys will be loaded here -->
+                    <div class="empty-state" id="empty-state">
+                        <i class="fa-solid fa-folder-open empty-icon"></i>
+                        <h3>No surveys created yet</h3>
+                        <p>Get started by building your first interactive survey or load dummy data.</p>
+                        <button class="btn btn-primary" onclick="showView('creator')"><i class="fa-solid fa-plus"></i> Build a Survey</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Survey Creator View -->
+            <section id="creator-view" class="view-panel hidden">
+                <div class="card creator-card">
+                    <div class="creator-header">
+                        <h2><i class="fa-solid fa-pen-to-square"></i> Create New Survey</h2>
+                        <button class="btn btn-text" onclick="showView('dashboard')"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</button>
+                    </div>
+                    <form id="survey-form" onsubmit="saveSurvey(event)">
+                        <div class="form-group">
+                            <label for="survey-title">Survey Title</label>
+                            <input type="text" id="survey-title" placeholder="e.g., Developer Preferences Survey" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="survey-desc">Description</label>
+                            <textarea id="survey-desc" rows="3" placeholder="Describe the purpose of this survey..."></textarea>
+                        </div>
+
+                        <div class="questions-section">
+                            <div class="questions-header">
+                                <h3>Questions</h3>
+                                <div class="add-question-menu">
+                                    <button type="button" class="btn btn-secondary" onclick="addQuestion('TEXT')"><i class="fa-solid fa-align-left"></i> Add Text Question</button>
+                                    <button type="button" class="btn btn-secondary" onclick="addQuestion('MULTIPLE_CHOICE')"><i class="fa-solid fa-list-ul"></i> Add Multiple Choice</button>
+                                </div>
+                            </div>
+
+                            <!-- List of dynamically added questions -->
+                            <div id="questions-list"></div>
+                        </div>
+
+                        <div class="creator-actions">
+                            <button type="button" class="btn btn-secondary" onclick="showView('dashboard')">Cancel</button>
+                            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Publish Survey</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

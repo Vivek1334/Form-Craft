@@ -1,0 +1,26 @@
+databases:
+  - name: survey-db
+    plan: free
+    databaseName: survey_db
+    user: survey_user
+
+services:
+  - type: web
+    name: survey-builder
+    runtime: docker
+    plan: free
+    envVars:
+      - key: JDBC_DATABASE_URL
+        value: jdbc:postgresql://${survey_db_HOST}:${survey_db_PORT}/${survey_db_DATABASE}?sslmode=require
+      - key: JDBC_DATABASE_USERNAME
+        fromDatabase:
+          name: survey-db
+          property: user
+      - key: JDBC_DATABASE_PASSWORD
+        fromDatabase:
+          name: survey-db
+          property: password
+      - key: JDBC_DATABASE_DRIVER
+        value: org.postgresql.Driver
+      - key: JPA_DIALECT
+        value: org.hibernate.dialect.PostgreSQLDialect

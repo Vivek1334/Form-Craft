@@ -11,15 +11,11 @@ services:
     plan: free
     envVars:
       - key: JDBC_DATABASE_URL
-        value: jdbc:postgresql://${survey-db.host}:${survey-db.port}/${survey-db.database}?sslmode=require
+        value: jdbc:postgresql://${databases.survey_db.host}:${databases.survey_db.port}/${databases.survey_db.database}?sslmode=require
       - key: JDBC_DATABASE_USERNAME
-        fromDatabase:
-          name: survey-db
-          property: user
+        value: ${databases.survey_db.user}
       - key: JDBC_DATABASE_PASSWORD
-        fromDatabase:
-          name: survey-db
-          property: password
+        value: ${databases.survey_db.password}
       - key: JDBC_DATABASE_DRIVER
         value: org.postgresql.Driver
       - key: JPA_DIALECT

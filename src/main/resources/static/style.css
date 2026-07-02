@@ -951,3 +951,74 @@ select:focus {
     font-size: 10rem;
 }
 
+/* Template Selection Panel */
+.templates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.template-option-card {
+    background: var(--card-bg-subtle);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+.template-option-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--text-main);
+    background: var(--card-bg);
+    box-shadow: 0 4px 12px rgba(9, 9, 11, 0.04);
+}
+
+.template-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.template-icon.green {
+    background-color: var(--success-bg);
+    color: var(--success);
+}
+
+.template-icon.blue {
+    background-color: rgba(37, 99, 235, 0.08);
+    color: var(--accent);
+}
+
+.template-icon.purple {
+    background-color: rgba(139, 92, 246, 0.08);
+    color: #8b5cf6;
+}
+
+.template-option-card h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.template-option-card p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+

@@ -201,6 +201,72 @@ async function loadDemoData() {
 // CREATOR LOGIC
 // -------------------------------------------------------------
 
+const SURVEY_TEMPLATES = {
+    customer_feedback: {
+        title: "Customer Feedback Form",
+        description: "We would love to hear your thoughts about our service and how we can improve.",
+        questions: [
+            {
+                text: "How would you rate your overall experience with our service?",
+                type: "MULTIPLE_CHOICE",
+                options: ["Excellent", "Good", "Average", "Poor"]
+            },
+            {
+                text: "Which aspect of our service did you like the most?",
+                type: "MULTIPLE_CHOICE",
+                options: ["Speed / Delivery", "Customer Support", "Product Quality", "Pricing"]
+            },
+            {
+                text: "Please share any additional suggestions or comments:",
+                type: "TEXT",
+                options: []
+            }
+        ]
+    },
+    event_rsvp: {
+        title: "Event RSVP & Preferences",
+        description: "Please confirm your attendance and choices for our upcoming event.",
+        questions: [
+            {
+                text: "Will you be attending the event?",
+                type: "MULTIPLE_CHOICE",
+                options: ["Yes, I will attend", "No, I cannot make it", "Unsure / Maybe"]
+            },
+            {
+                text: "Do you have any dietary restrictions?",
+                type: "MULTIPLE_CHOICE",
+                options: ["None", "Vegetarian", "Vegan", "Gluten-Free / Other"]
+            },
+            {
+                text: "Who are you bringing as a plus one? (If none, leave blank)",
+                type: "TEXT",
+                options: []
+            }
+        ]
+    },
+    employee_satisfaction: {
+        title: "Monthly Team Satisfaction Survey",
+        description: "Anonymous feedback on morale, workload stress, and team processes.",
+        questions: [
+            {
+                text: "How do you rate your current work-life balance?",
+                type: "MULTIPLE_CHOICE",
+                options: ["Great", "Satisfactory", "Needs Improvement", "Burnt Out"]
+            },
+            {
+                text: "Do you feel you have the resources necessary to do your job effectively?",
+                type: "MULTIPLE_CHOICE",
+                options: ["Yes, completely", "Mostly", "Partially", "No, lacking major resources"]
+            },
+            {
+                text: "What is one thing we could change to make your work experience better?",
+                type: "TEXT",
+                options: []
+            }
+        ]
+    }
+};
+
 let questionCounter = 0;
 
 function resetCreatorForm() {
@@ -209,8 +275,23 @@ function resetCreatorForm() {
     questionCounter = 0;
 }
 
-// Add a question to the form creation board
-function addQuestion(type) {
+function loadTemplate(templateKey) {
+    const template = SURVEY_TEMPLATES[templateKey];
+    if (!template) return;
+
+    resetCreatorForm();
+    document.getElementById('survey-title').value = template.title;
+    document.getElementById('survey-desc').value = template.description;
+
+    template.questions.forEach(q => {
+        addQuestion(q.type, q.text, q.options);
+    });
+
+    showToast(`"${template.title}" template loaded!`);
+}
+
+// Add a question to the form creation board (supports loading templates)
+function addQuestion(type, text = '', options = []) {
     questionCounter++;
     const container = document.getElementById('questions-list');
     const qDiv = document.createElement('div');
@@ -220,18 +301,22 @@ function addQuestion(type) {
 
     let optionsHtml = '';
     if (type === 'MULTIPLE_CHOICE') {
+        let rowsHtml = '';
+        const items = options.length > 0 ? options : ["", ""];
+        items.forEach((opt, idx) => {
+            rowsHtml += `
+                <div class="option-builder-row">
+                    <input type="text" placeholder="Option ${idx + 1}" value="${escapeHTML(opt)}" required class="option-input">
+                    <button type="button" class="btn btn-danger btn-xs" onclick="removeOptionRow(this)"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `;
+        });
+
         optionsHtml = `
             <div class="options-builder">
                 <label>Options</label>
                 <div class="options-container" id="options-container-${questionCounter}">
-                    <div class="option-builder-row">
-                        <input type="text" placeholder="Option 1" required class="option-input">
-                        <button type="button" class="btn btn-danger btn-xs" onclick="removeOptionRow(this)"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                    <div class="option-builder-row">
-                        <input type="text" placeholder="Option 2" required class="option-input">
-                        <button type="button" class="btn btn-danger btn-xs" onclick="removeOptionRow(this)"><i class="fa-solid fa-trash"></i></button>
-                    </div>
+                    ${rowsHtml}
                 </div>
                 <button type="button" class="btn btn-secondary btn-xs" onclick="addOptionRow(${questionCounter})" style="margin-top: 0.5rem;"><i class="fa-solid fa-plus"></i> Add Option</button>
             </div>
@@ -244,7 +329,7 @@ function addQuestion(type) {
             <span class="question-badge">${type === 'MULTIPLE_CHOICE' ? 'Multiple Choice' : 'Text Response'}</span>
         </div>
         <div class="form-group">
-            <input type="text" placeholder="Enter question description/text here..." required class="question-text-input">
+            <input type="text" placeholder="Enter question description/text here..." value="${escapeHTML(text)}" required class="question-text-input">
         </div>
         ${optionsHtml}
         <button type="button" class="btn btn-danger btn-xs" onclick="removeQuestionCard(this)" style="position: absolute; top: 1.25rem; right: 1.5rem;"><i class="fa-solid fa-trash"></i> Delete</button>

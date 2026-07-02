@@ -93,6 +93,33 @@
 
             <!-- Survey Creator View -->
             <section id="creator-view" class="view-panel hidden">
+                <!-- Templates Selector Card -->
+                <div class="card creator-card" style="margin-bottom: 2rem; padding: 2rem;">
+                    <div class="creator-header" style="margin-bottom: 1.5rem; border-bottom: none; padding-bottom: 0;">
+                        <div>
+                            <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Start with a Template</h2>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Select a pre-made form template to populate the builder instantly</p>
+                        </div>
+                    </div>
+                    <div class="templates-grid">
+                        <div class="template-option-card" onclick="loadTemplate('customer_feedback')">
+                            <div class="template-icon green"><i class="fa-solid fa-comments"></i></div>
+                            <h4>Customer Feedback</h4>
+                            <p>Collect client opinions and ratings.</p>
+                        </div>
+                        <div class="template-option-card" onclick="loadTemplate('event_rsvp')">
+                            <div class="template-icon blue"><i class="fa-solid fa-calendar-check"></i></div>
+                            <h4>Event RSVP</h4>
+                            <p>Gather guest count and food choices.</p>
+                        </div>
+                        <div class="template-option-card" onclick="loadTemplate('employee_satisfaction')">
+                            <div class="template-icon purple"><i class="fa-solid fa-users-gear"></i></div>
+                            <h4>Employee Satisfaction</h4>
+                            <p>Anonymously track team sentiment and morale.</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="card creator-card">
                     <div class="creator-header">
                         <h2><i class="fa-solid fa-pen-to-square"></i> Create New Survey</h2>

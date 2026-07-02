@@ -326,13 +326,15 @@ function addQuestion(type, text = '', options = []) {
     qDiv.innerHTML = `
         <div class="question-creator-header">
             <span class="question-num">Question #${questionCounter}</span>
-            <span class="question-badge">${type === 'MULTIPLE_CHOICE' ? 'Multiple Choice' : 'Text Response'}</span>
+            <div class="question-header-actions" style="display: flex; align-items: center; gap: 0.75rem;">
+                <span class="question-badge">${type === 'MULTIPLE_CHOICE' ? 'Multiple Choice' : 'Text Response'}</span>
+                <button type="button" class="btn btn-danger btn-xs" onclick="removeQuestionCard(this)"><i class="fa-solid fa-trash"></i> Delete</button>
+            </div>
         </div>
         <div class="form-group">
             <input type="text" placeholder="Enter question description/text here..." value="${escapeHTML(text)}" required class="question-text-input">
         </div>
         ${optionsHtml}
-        <button type="button" class="btn btn-danger btn-xs" onclick="removeQuestionCard(this)" style="position: absolute; top: 1.25rem; right: 1.5rem;"><i class="fa-solid fa-trash"></i> Delete</button>
     `;
 
     container.appendChild(qDiv);
